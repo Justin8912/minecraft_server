@@ -2,5 +2,5 @@ locals {
     account_id = "597106394031"
     region = "us-east-1"
     app_name = "minecraft-server"
-    
+    public-connection-key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBZFQh5Jw/f2gq0H2WgC1bXcQP+v0JdzWhrCu1g0zelE5pgEcOvOiHMtMeSpFNDXlaPRzPq4vhNkr9yCVOUSp6Iyq52QogVlifAu2aK62TQQBTvIxt0G7funGZk8AUwzqhBHScWNrmt2fNb46RgFawFgi+/h8gYIBkw2EVICxPoi7uDw3j9jYWPm+r9gEyMbcmWKu1TTFnDPvFuHHsEXHaFme6IMtkri5eEurtXMxiHdTFMqFvJy8v58c34jtgrs4TvKK+4J6/0NNUKy7HFyoclHXuoy50rv/yCP0f0Q8WDe4yBGMM1b1b0kVYYbjy+MA20yScLikXSXddQvC13SjAZVDMU4E5eKPjGBe/l9ET5s7FzCLW+u3myzv4ckTA1QJOBAHx+zHm34gRw93a78EPN2ZEl0O62+6C/dzSdDUQ49Hf74JdrIxG//jiy+EbHfsMWJcULeNuFmRa8uzqehLW5DIWiwUgnD1Q7IAD1sUEB1aXr0CzyBjyn9wTpOkZoqVrTTUkHDAAfstIVu3wkVxRmLwgtLQZcNsmUN4Vhqwxgt78Zetd2O88077ax/0CrQS9zX3IVWEqG9WFIFb5MIsdFK/RqgjFFe3Rc1lkoqJhTnKsSSpnsTY+cEjk7bWfmrjvdmAJUjGcmmZIFnFjL6H728T7hJXKvMT0JnzUaM0e0Q== justin.stendara@CAI-R6M7YRC30J"
 }
