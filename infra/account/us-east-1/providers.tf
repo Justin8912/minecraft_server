@@ -1,9 +1,5 @@
 terraform {
   required_providers {
-    alks = {
-      source  = "cox-automotive/alks"
-      version = "~> 2.7"
-    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.60"
@@ -14,9 +10,6 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
-}
-
-provider "aws" {
-  alias = "sns_homie_east"
-  region  = "us-east-1"
+  access_key="xxx"
+  secret_key="xxx"
 }
