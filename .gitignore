@@ -22,5 +22,9 @@
 hs_err_pid*
 replay_pid*
 
-minecraft_server
-minecraft_server.pub
+secrets/minecraft_server
+secrets/minecraft_server.pub
+
+*.terraform*
+*.tfstate*
+secrets/
