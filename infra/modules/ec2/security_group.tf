@@ -62,6 +62,26 @@ resource "aws_security_group" "allow_most_traffic" {
     ]
   }
 
+  ingress {
+    description      = "Allow Minecraft Traffic"
+    from_port        = 25565
+    to_port          = 25565
+    protocol         = "TCP"
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
+
+  egress {
+    description      = "Allow Minecraft Traffic"
+    from_port        = 25565
+    to_port          = 25565
+    protocol         = "TCP"
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
+
 
   tags = {
     Name = "allow_most_traffic"

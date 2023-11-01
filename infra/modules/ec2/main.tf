@@ -15,11 +15,11 @@ resource "aws_key_pair" "connection" {
 
 resource "aws_instance" "test-server" {
   ami = data.aws_ami.amzn-linux-2023-ami.id
-  instance_type = "t2.micro"
+  instance_type = "m5.large"
 
   root_block_device {
-    delete_on_termination = true
-    volume_size = 8
+    delete_on_termination = false
+    volume_size = 20
     volume_type = "standard"
   }
 
