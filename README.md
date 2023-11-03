@@ -21,3 +21,8 @@ To see if the server is running, log into the EC2 instance and run the following
 ```
 sudo lsof -i :25565
 ```
+
+### To run the server
+```
+bash start_server.sh
+```
