@@ -5,3 +5,9 @@ module "minecraft-server" {
   account_name = "${local.account_id}-${local.region}"
   public-connection-key = local.public-connection-key
 }
+
+module "IAM" {
+  source = "../../modules/IAM"
+
+  app-name = local.app_name
+}
