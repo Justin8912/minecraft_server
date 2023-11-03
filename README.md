@@ -53,6 +53,9 @@ export AWS_SESSION_TOKEN     = <>
 ```
 aws ec2 [start/stop]-instances --instance-ids i-0569782c5091a09b7
 ```
-
-
+4. Run the following command to start the server:
+```
+aws ssm send-command --instance-ids "i-0569782c5091a09b7" --document-name "AWS-RunShellScript" --parameters '{"commands":["./start_server.sh"]}'
+```
+- this did not work
 One thing I did not do here is I manually create the Role that is attached to the `minecraft-iam-user`. I am not sure if this is a huge deal since I gave the IAM user full EC2 privileges, but this is something to be weary of.
