@@ -14,3 +14,20 @@ Stretch Goals
 1. I will add a way for Robin to be able to turn it on using IAM permissions.
 2. I will periodically back up the save files of the game so saves can be reverted
 3. I will add a monitoring tool that will shut off the server if there has been no activity for a certain amount of time
+
+Some notes
+==
+To see if the server is running, log into the EC2 instance and run the following command:
+```
+sudo lsof -i :25565
+```
+
+### To run the server
+```
+bash start_server.sh
+```
+
+### To kill the server
+```
+bash kill_server.sh
+```
