@@ -22,12 +22,32 @@ To see if the server is running, log into the EC2 instance and run the following
 sudo lsof -i :25565
 ```
 
-### To run the server
+### To run the server (once inside EC2)
 ```
 bash start_server.sh
 ```
 
-### To kill the server
+### To kill the server (once inside EC2)
 ```
 bash kill_server.sh
 ```
+
+Here I will outline the steps for starting / stopping the server on the command line
+==
+1. Run this command in order to get a session started
+```
+aws sts get-session-token --duration-seconds <desired-time>
+```
+2. Copy and paste the credentials given
+```
+export AWS_ACCESS_KEY_ID     = <>
+export AWS_SECRET_ACCESS_KEY = <>
+export AWS_SESSION_TOKEN     = <>
+```
+3. Run the following command depending on whether you want to start or stop the server
+```
+aws ec2 [start/stop]-instances --instance-ids i-0569782c5091a09b7
+```
+
+
+One thing I did not do here is I manually create the Role that is attached to the `minecraft-iam-user`. I am not sure if this is a huge deal since I gave the IAM user full EC2 privileges, but this is something to be weary of.
