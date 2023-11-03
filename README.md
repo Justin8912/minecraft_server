@@ -34,6 +34,11 @@ bash kill_server.sh
 
 Here I will outline the steps for starting / stopping the server on the command line
 ==
+1. Set the following variables depending on your IAM user
+```
+export AWS_ACCESS_KEY        = <>
+export AWS_SECRET_ACCESS_KEY = <>
+```
 1. Run this command in order to get a session started
 ```
 aws sts get-session-token --duration-seconds <desired-time>
