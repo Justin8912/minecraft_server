@@ -26,3 +26,8 @@ sudo lsof -i :25565
 ```
 bash start_server.sh
 ```
+
+### To kill the server
+```
+bash kill_server.sh
+```
