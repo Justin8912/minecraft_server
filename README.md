@@ -33,7 +33,7 @@ bash kill_server.sh
 ```
 
 Here I will outline the steps for starting / stopping the server on the command line
-==
+--
 1. Set the following variables depending on your IAM user
 ```
 export AWS_ACCESS_KEY        = <>
@@ -59,3 +59,13 @@ aws ssm send-command --instance-ids "i-0569782c5091a09b7" --document-name "AWS-R
 ```
 - this did not work
 One thing I did not do here is I manually create the Role that is attached to the `minecraft-iam-user`. I am not sure if this is a huge deal since I gave the IAM user full EC2 privileges, but this is something to be weary of.
+
+### Note that all of this done above is now done in the script called `startup_creds.sh` 
+How to run
+--
+1. Navigate to the `scripts` directory
+2. Run `bash setup_creds.sh` and enter your credentials for AWS (these will come from your IAM user)
+3. When you get aws messages that come up press `q` (haven't figured out how to silence these yet)
+4. When prompted, either start or stop the server
+5. When starting the server, the server will give you an IP address, you must use this to connect to the server.
+   - I could have had the same IP address persist, but did not want to pay for an elastic IP Address since it charges based on time that the server is turned off (which I expect will be a majority of the month).
