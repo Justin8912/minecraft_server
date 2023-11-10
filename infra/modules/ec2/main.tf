@@ -17,7 +17,7 @@ resource "aws_iam_instance_profile" "minecraft-profile" {
   name = "minecraft-profile"
   role = var.minecraft-iam-role-name
 }
-// somehow attach the iam role to the ec2 instance
+
 resource "aws_instance" "test-server" {
   ami = data.aws_ami.amzn-linux-2023-ami.id
   instance_type = "m5.large"

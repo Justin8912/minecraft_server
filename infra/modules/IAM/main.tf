@@ -21,7 +21,6 @@ resource "aws_iam_user_policy" "minecraft-server" {
   policy = data.aws_iam_policy_document.minecraft-server.json
 }
 
-// Create the IAM role
 resource "aws_iam_role" "minecraft-iam-role-access" {
   name               = "minecraft-iam-role-access"
   description        = "The role used to link an IAM user to access the server"
@@ -29,7 +28,6 @@ resource "aws_iam_role" "minecraft-iam-role-access" {
 
 }
 
-// Create the policy statement
 data "aws_iam_policy_document" "minecraft-iam-role-policy" {
   statement {
     actions = ["sts:AssumeRole"]
