@@ -13,6 +13,10 @@ resource "aws_key_pair" "connection" {
   public_key = var.public-connection-key
 }
 
+resource "aws_iam_instance_profile" "minecraft-profile" {
+  name = "minecraft-profile"
+  role = var.minecraft-iam-role-name
+}
 // somehow attach the iam role to the ec2 instance
 resource "aws_instance" "test-server" {
   ami = data.aws_ami.amzn-linux-2023-ami.id
@@ -31,4 +35,5 @@ resource "aws_instance" "test-server" {
   key_name = aws_key_pair.connection.key_name
 
   security_groups = [aws_security_group.allow_most_traffic.name]
+  iam_instance_profile = aws_iam_instance_profile.minecraft-profile.name
 }
