@@ -14,7 +14,7 @@ resource "aws_key_pair" "connection" {
 }
 
 resource "aws_iam_instance_profile" "minecraft-profile" {
-  name = "minecraft-profile"
+  name = "minecraft-iam-role-access"
   role = var.minecraft-iam-role-name
 }
 
