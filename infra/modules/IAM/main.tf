@@ -11,12 +11,12 @@ data "aws_iam_policy_document" "minecraft-server" {
   statement {
     effect    = "Allow"
     actions   = ["ec2:*"]
-    resources = ["*"]
+    resources = ["arn:aws:iam::597106394031:role/minecraft-server-role"]
   }
 }
 
 resource "aws_iam_user_policy" "minecraft-server" {
-  name   = "test_iam_user"
+  name   = "minecraft-server-access"
   user   = aws_iam_user.minecraft-server.name
   policy = data.aws_iam_policy_document.minecraft-server.json
 }
