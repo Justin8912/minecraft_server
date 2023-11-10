@@ -20,3 +20,5 @@ resource "aws_iam_user_policy" "minecraft-server" {
   user   = aws_iam_user.minecraft-server.name
   policy = data.aws_iam_policy_document.minecraft-server.json
 }
+
+// Create the IAM role

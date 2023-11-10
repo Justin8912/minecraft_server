@@ -13,6 +13,7 @@ resource "aws_key_pair" "connection" {
   public_key = var.public-connection-key
 }
 
+// somehow attach the iam role to the ec2 instance
 resource "aws_instance" "test-server" {
   ami = data.aws_ami.amzn-linux-2023-ami.id
   instance_type = "m5.large"
