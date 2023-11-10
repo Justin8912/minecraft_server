@@ -22,3 +22,21 @@ resource "aws_iam_user_policy" "minecraft-server" {
 }
 
 // Create the IAM role
+resource "aws_iam_role" "minecraft-iam-role-access" {
+  name               = "minecraft-iam-role-access"
+  description        = "The role used to link an IAM user to access the server"
+  assume_role_policy = data.aws_iam_policy_document.minecraft-iam-role-policy.json
+
+}
+
+// Create the policy statement
+data "aws_iam_policy_document" "minecraft-iam-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
