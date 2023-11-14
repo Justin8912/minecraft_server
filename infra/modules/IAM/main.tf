@@ -1,6 +1,5 @@
 resource "aws_iam_user" "minecraft-server" {
   name = "${var.app-name}-iam-user"
-  path = "/IAM/user/"
 }
 
 resource "aws_iam_access_key" "minecraft-server" {
@@ -15,8 +14,9 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:SendCommand"                                                        //For Session manager access from Amazon EC2 console
     ]
     resources = [
-      "arn:aws:ec2:us-east-1:597106394031:instance/i-06565eba97092c4ba",
-      "arn:aws:ssm:*::document/AWS-StartPortForwardingSession"                //For Session Manager Port Forwarding Feature
+      "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
+      "arn:aws:ssm:*::document/AWS-StartPortForwardingSession",             //For Session Manager Port Forwarding Feature
+      "arn:aws:ssm:us-east-1::document/AWS-RunShellScript"
     ]
   }
   statement {
@@ -45,13 +45,18 @@ data "aws_iam_policy_document" "minecraft-server" {
   statement {
     effect = "Allow"
     actions = [
-      "ec2:*"
+      "ec2:StartInstance",
+      "ec2:StopInstances",
+      "ec2:DescribeInstances",
+      "ec2:DescribeInstancesStatus"
     ]
     resources = [
+      "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
       "arn:aws:iam::597106394031:role/minecraft-server-role",
       "arn:aws:iam::aws:policy/AdministratorAccess",
       "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-      "arn:aws:iam::aws:policy/IAMUserChangePassword"
+      "arn:aws:iam::aws:policy/IAMUserChangePassword",
+      "*"
     ]
   }
 }
