@@ -24,12 +24,12 @@ sudo lsof -i :25565
 
 ### To run the server (once inside EC2)
 ```
-bash start_server.sh
+bash minecraft_server/scripts/start_server.sh
 ```
 
 ### To kill the server (once inside EC2)
 ```
-bash kill_server.sh
+bash minecraft_server/scripts/kill_server.sh
 ```
 
 Here I will outline the steps for starting / stopping the server on the command line
@@ -51,14 +51,14 @@ export AWS_SESSION_TOKEN     = <>
 ```
 3. Run the following command depending on whether you want to start or stop the server
 ```
-aws ec2 [start/stop]-instances --instance-ids i-0569782c5091a09b7
+aws ec2 [start/stop]-instances --instance-ids <instance_id>
 ```
 4. Run the following command to start the server:
 ```
-aws ssm send-command --instance-ids "i-0569782c5091a09b7" --document-name "AWS-RunShellScript" --parameters '{"commands":["./start_server.sh"]}'
+aws ssm send-command --instance-ids "<instance_id>" --document-name "AWS-RunShellScript" --parameters '{"commands":[".minecraft_server/scripts/start_server.sh"]}'
 ```
-- this did not work
-One thing I did not do here is I manually create the Role that is attached to the `minecraft-iam-user`. I am not sure if this is a huge deal since I gave the IAM user full EC2 privileges, but this is something to be weary of.
+
+I have created an IAM user as a part of the terraform that is being used here. You will need to get the IAM user access code and secret access key ID. This can be done in the AWS console.
 
 ### Note that all of this done above is now done in the script called `startup_creds.sh` 
 How to run
