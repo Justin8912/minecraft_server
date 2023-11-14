@@ -27,7 +27,7 @@ if [ "$operation" = "start" ]; then
 
   echo "The EC2 instance is running, sleeping for 40 seconds to allow it to start up properly..."
   export IPAddress=$(aws ec2 describe-instances --instance-ids "i-03485a5bde9eaa3bd" --output json | jq -r '.Reservations[].Instances[].PublicIpAddress')
-#  sleep 40 | pv -t
+  sleep 40 | pv -t
 
   echo "The server has been successfully started. Starting the Minecraft server."
   aws ssm send-command --instance-ids "i-03485a5bde9eaa3bd" --document-name "AWS-RunShellScript" --parameters '{"commands":["bash minecraft_server/scripts/start_server.sh"]}'
