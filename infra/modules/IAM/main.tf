@@ -48,7 +48,10 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ec2:*"
     ]
     resources = [
-      "arn:aws:iam::597106394031:role/minecraft-server-role"
+      "arn:aws:iam::597106394031:role/minecraft-server-role",
+      "arn:aws:iam::aws:policy/AdministratorAccess",
+      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
+      "arn:aws:iam::aws:policy/IAMUserChangePassword"
     ]
   }
 }
