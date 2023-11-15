@@ -1,0 +1,1 @@
+variable "minecraft-server-iam-role-arn" {}
