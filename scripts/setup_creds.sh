@@ -1,5 +1,10 @@
-read -p "Enter your IAM User's access key id: " AWS_ACCESS_KEY_ID
-read -p "Enter your IAM User's secret access key id: " AWS_SECRET_ACCESS_KEY
+while IFS=, read -r col_1 col_2
+do
+  echo "Setting AWS_ACCESS_KEY_ID to: $col_1"
+  export AWS_ACCESS_KEY_ID=$col_1
+  echo "Setting AWS_SECRET_ACCESS_KEY to: [***${col_2:${#col_2}-4:4}]"
+  export AWS_SECRET_ACCESS_KEY=$col_2
+done < "../secrets/minecraft-server-iam-user.csv"
 
 export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
 export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
