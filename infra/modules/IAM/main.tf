@@ -26,6 +26,8 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:GetConnectionStatus",
       "ssm:DescribeInstanceInformation",
       "ssm:DescribeInstanceProperties",
+      "ec2:DescribeInstanceStatus",
+      "ec2:DescribeInstances"
     ]
     resources= ["*"]
   }
@@ -50,17 +52,6 @@ data "aws_iam_policy_document" "minecraft-server" {
     resources = [
       "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
       "arn:aws:iam::597106394031:role/minecraft-server-role"
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "ec2:DescribeInstanceStatus",
-      "ec2:DescribeInstances"
-    ]
-    resources = [
-      "*"
     ]
   }
 }
