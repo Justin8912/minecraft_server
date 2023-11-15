@@ -47,11 +47,20 @@ data "aws_iam_policy_document" "minecraft-server" {
     actions = [
       "ec2:StartInstances",
       "ec2:StopInstances",
-      "ec2:DescribeInstanceStatus"
     ]
     resources = [
       "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
       "arn:aws:iam::597106394031:role/minecraft-server-role"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeInstanceStatus"
+    ]
+    resources = [
+      "*"
     ]
   }
 }
