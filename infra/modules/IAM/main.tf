@@ -26,7 +26,6 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:GetConnectionStatus",
       "ssm:DescribeInstanceInformation",
       "ssm:DescribeInstanceProperties",
-      "ec2:DescribeInstances"
     ]
     resources= ["*"]
   }
@@ -57,7 +56,8 @@ data "aws_iam_policy_document" "minecraft-server" {
   statement {
     effect = "Allow"
     actions = [
-      "ec2:DescribeInstanceStatus"
+      "ec2:DescribeInstanceStatus",
+      "ec2:DescribeInstances"
     ]
     resources = [
       "*"
