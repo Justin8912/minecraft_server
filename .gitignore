@@ -28,3 +28,5 @@ secrets/minecraft_server.pub
 *.terraform*
 *.tfstate*
 secrets/
+
+.idea
