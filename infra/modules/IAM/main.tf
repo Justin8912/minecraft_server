@@ -26,6 +26,7 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:GetConnectionStatus",
       "ssm:DescribeInstanceInformation",
       "ssm:DescribeInstanceProperties",
+      "ssm:GetCommandInvocation",
       "ec2:DescribeInstanceStatus",
       "ec2:DescribeInstances"
     ]
