@@ -8,8 +8,12 @@ terraform {
   required_version = "= 1.5.0"
 }
 
+locals {
+  csv_data = csvdecode(file("${path.root}/../../../secrets/minecraft-super-user_accessKeys.csv"))
+}
+
 provider "aws" {
-  region  = "us-east-1"
-  access_key="AKIAYWBSQQOX6IGIQCAZ"
-  secret_key="xxx"
+  region = "us-east-1"
+  access_key = local.csv_data[0]["﻿accessKeyId"]
+  secret_key = local.csv_data[0]["secretAccessKey"]
 }

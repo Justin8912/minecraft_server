@@ -26,6 +26,8 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:GetConnectionStatus",
       "ssm:DescribeInstanceInformation",
       "ssm:DescribeInstanceProperties",
+      "ssm:GetCommandInvocation",
+      "ec2:DescribeInstanceStatus",
       "ec2:DescribeInstances"
     ]
     resources= ["*"]
@@ -45,18 +47,12 @@ data "aws_iam_policy_document" "minecraft-server" {
   statement {
     effect = "Allow"
     actions = [
-      "ec2:StartInstance",
+      "ec2:StartInstances",
       "ec2:StopInstances",
-      "ec2:DescribeInstances",
-      "ec2:DescribeInstancesStatus"
     ]
     resources = [
       "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
-      "arn:aws:iam::597106394031:role/minecraft-server-role",
-      "arn:aws:iam::aws:policy/AdministratorAccess",
-      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess",
-      "arn:aws:iam::aws:policy/IAMUserChangePassword",
-      "*"
+      "arn:aws:iam::597106394031:role/minecraft-server-role"
     ]
   }
 }
