@@ -22,7 +22,7 @@ AWS_ACCESS_KEY_ID=$(echo "${AWS_CREDS}" |jq -r ".Credentials.AccessKeyId")
 AWS_SECRET_ACCESS_KEY=$(echo "${AWS_CREDS}" |jq -r ".Credentials.SecretAccessKey")
 AWS_SESSION_TOKEN=$(echo "${AWS_CREDS}" |jq -r ".Credentials.SessionToken")
 
-read -p "Would you like to start or stop the server?" operation
+read -p "Would you like to start or stop the server? (start/stop): " operation
 
 export startupStatus
 export waitForStartup
@@ -30,6 +30,7 @@ export IPAddress
 export command
 export commandId
 export command_status
+export instance_status
 
 # Either starting or stopping the server
 if [ "$operation" = "start" ]; then
@@ -76,8 +77,24 @@ if [ "$operation" = "start" ]; then
 To begin the server, please address the issue listed above and try again."
   fi
 else
-  echo "Stopping the server"
-  aws ssm send-command --instance-ids "$instance_id" --document-name "AWS-RunShellScript" --parameters '{"commands":["bash minecraft_server/scripts/kill_server.sh"]}'
-  aws ec2 stop-instances --instance-ids $instance_id
-  echo "The server has been stopped. Please allow 1-2 minutes for the EC2 instance to fully shut down."
+  instance_status=$(echo "$(aws ec2 describe-instances --instance-ids "$instance_id" --output json)" | jq -r ".Reservations[0].Instances[0].State.Name")
+  if [ "$instance_status" != "stopped" ];
+  then
+    echo "Stopping the server"
+    command=$(aws ssm send-command --instance-ids "$instance_id" --document-name "AWS-RunShellScript" --parameters '{"commands":["bash minecraft_server/scripts/kill_server.sh"]}')
+    commandId=$(echo "$command" | jq -r ".Command.CommandId")
+    command_status=$(aws ssm get-command-invocation --command-id $commandId --instance-id $instance_id)
+
+
+    while [ $(echo "$command_status" | jq -r ".Status") == "Pending" ] || [ $(echo "$command_status" | jq -r ".Status") == "InProgress" ]
+    do
+      echo "Finding the status of the stop server command..."
+      command_status=$(aws ssm get-command-invocation --command-id $commandId --instance-id $instance_id)
+      sleep 2
+    done
+    aws ec2 stop-instances --instance-ids $instance_id
+    echo "The server has been stopped. Please allow 1-2 minutes for the EC2 instance to fully shut down."
+  else
+    echo "The server is already stopped. No action required."
+  fi
 fi
