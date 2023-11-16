@@ -15,5 +15,5 @@ locals {
 provider "aws" {
   region = "us-east-1"
   access_key = local.csv_data[0]["﻿accessKeyId"]
-  secret_key = local.csv_data[0].secretAccessKey
+  secret_key = local.csv_data[0]["secretAccessKey"]
 }
