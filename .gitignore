@@ -29,5 +29,7 @@ secrets/minecraft_server.pub
 *.tfstate*
 secrets/
 
+.idea
+
 lambda-code/target
 scripts/nohup.out
