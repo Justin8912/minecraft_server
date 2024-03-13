@@ -28,3 +28,6 @@ secrets/minecraft_server.pub
 *.terraform*
 *.tfstate*
 secrets/
+
+lambda-code/target
+scripts/nohup.out
