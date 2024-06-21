@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "minecraft-server" {
       "ssm:SendCommand"                                                        //For Session manager access from Amazon EC2 console
     ]
     resources = [
-      "arn:aws:ec2:us-east-1:597106394031:instance/i-03485a5bde9eaa3bd",
+      var.ec2_instance.arn,
       "arn:aws:ssm:*::document/AWS-StartPortForwardingSession",             //For Session Manager Port Forwarding Feature
       "arn:aws:ssm:us-east-1::document/AWS-RunShellScript"
     ]
