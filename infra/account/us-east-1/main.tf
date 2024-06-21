@@ -18,6 +18,5 @@ module "application-lambda" {
   source = "../../modules/lambda"
 
   minecraft-server-iam-role-arn = module.IAM.minecraft-iam-role-arn
-
   instance = module.minecraft-server.instance
 }

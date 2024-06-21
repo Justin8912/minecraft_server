@@ -14,6 +14,8 @@ resource "aws_lambda_function" "minecraft-invoker" {
       instance_id = var.instance.id
     }
   }
+
+  timeout = 6
 }
 
 resource "aws_cloudwatch_log_group" "logs" {

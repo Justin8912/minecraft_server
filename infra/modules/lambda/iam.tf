@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "ec2_permissions" {
       "ec2:RunInstances"
     ]
 
-    resources = ["${var.instance.arn}:*"]
+    resources = ["${var.instance.arn}"]
   }
 }
 
