@@ -8,3 +8,6 @@ echo "$PWD"
 echo "Starting server"
 sudo java -Xmx4G -Xms4G -jar server.jar nogui &
 echo "Server started"
+
+# Using spigot
+#java -Xmx4G -Xms4G -jar spigot-1.20.6.jar --nogui

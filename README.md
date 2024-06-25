@@ -100,7 +100,7 @@ Setup in the EC2 instance
 
 What this is doing is linking up the executable file that was defined to the startup process of the linux server.
 
-For some reason, doing this directly didnt work and I had to configure the user data for the server with the following:
+I ended up pasting this in the "user data" section of the EC2 instance. I am convinced that the above steps are not needed, but need to verify.
 ```
 Content-Type: multipart/mixed; boundary="//"
 MIME-Version: 1.0
@@ -123,6 +123,14 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
 /bin/echo "Hello World" >> /tmp/testfile.txt
+echo "Running the user data script"
+echo "$PWD"
+cd /home/ec2-user/minecraft_server/app
+echo "Changing directories"
+echo "$PWD"
+echo "Starting server"
+sudo java -Xmx4G -Xms4G -jar server.jar nogui &
+echo "Server started"
 --//--
 ```
 
@@ -149,5 +157,7 @@ It's my assumption that this is somehow setting cloud-init to run correctly on t
 
 `sudo git clone `
 
-### Setting up java server to run on startup 
-1. For some reason
+### Using Spigot
+Apparently Spigot is a better minecrafter server version and they maintain a lot of software that makes using plugins for mc servers. 
+
+[Here](https://danieldusek.com/create-an-interactive-map-of-your-minecraft-world.html) is the link I was following to figure out how to generate a map of the server.

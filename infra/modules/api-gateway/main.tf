@@ -11,6 +11,11 @@ resource "aws_apigatewayv2_route" "post_route" {
   target = "integrations/${aws_apigatewayv2_integration.integration.id}"
 }
 
+resource "aws_apigatewayv2_route" "get_route" {
+  api_id = aws_apigatewayv2_api.lambda_executor.id
+  route_key = "GET /server-status"
+  target = "integrations/${aws_apigatewayv2_integration.integration.id}"
+}
 
 resource "aws_apigatewayv2_integration" "integration" {
   api_id = aws_apigatewayv2_api.lambda_executor.id

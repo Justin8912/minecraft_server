@@ -1,13 +1,37 @@
 const readline = require("readline");
 const json = require("json");
 
-const apiURL = "https://fdceviu35h.execute-api.us-east-1.amazonaws.com/default-stage/manage-server"
+const postApiUrl = "https://fdceviu35h.execute-api.us-east-1.amazonaws.com/default-stage/manage-server"
+const getApiUrl = "https://fdceviu35h.execute-api.us-east-1.amazonaws.com/default-stage/server-status"
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
+const getIPv4Addr = () => {
+
+    return new Promise((resolve, reject) => {
+        const fetchParameters = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+        return fetch(getApiUrl, fetchParameters)
+            .then(response => {
+                return response.json();
+            })
+            .then(status => {
+                console.log(status.message + "\nPlease allow the server ~30 seconds to startup before trying to connect.");
+                resolve(status.message);
+            })
+            .catch(err => {
+                console.log("There was an issue when trying to retrieve the IPv4Addr: ", err);
+                reject(err);
+            })
+    })
+}
 rl.question("Would you like to start or stop the server? ", async (response) => {
     console.log(`You have chosen to ${response} the server`);
 
@@ -24,17 +48,14 @@ rl.question("Would you like to start or stop the server? ", async (response) => 
         }
     }
 
-    await fetch(apiURL, fetchParameters)
+    await fetch(postApiUrl, fetchParameters)
         .then(response => {
-            console.log(response.status)
             if (Math.floor(response.status /100 ) !== 2) {
-                console.log(Math.floor(response.status) / 100)
                 didFail = true;
             }
             return response.json();
         })
         .then(async (body) => {
-            console.log(body);
             if (didFail) {
                 throw body;
             }
@@ -44,8 +65,15 @@ rl.question("Would you like to start or stop the server? ", async (response) => 
                     setTimeout(resolve, milliseconds);
                 });
             };
-
-            await delay(20000)
+            if (response === "start") {
+                console.log("Beginning retrieval of server IP.");
+                return await delay(3000)
+            }
+        })
+        .then(() => {
+            if (response === "start") {
+                return getIPv4Addr()
+            }
         })
         .catch(err => {
             console.log("Uh-oh! Looks like there was an issue: \n" + err.message);

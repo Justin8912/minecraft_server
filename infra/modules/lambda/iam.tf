@@ -66,16 +66,22 @@ data "aws_iam_policy_document" "ec2_permissions" {
     effect = "Allow"
 
     actions = [
-      "ec2:DescribeInstances",
-      "ec2:DescribeInstanceTypes",
       "ec2:StartInstances",
       "ec2:StopInstances",
-      "ec2:Start*",
-      "ec2:Stop*",
       "ec2:RunInstances"
     ]
 
-    resources = ["${var.instance.arn}"]
+    resources = [var.instance.arn]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ec2:DescribeInstances"
+    ]
+
+    resources = ["*"]
   }
 }
 
