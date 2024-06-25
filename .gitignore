@@ -35,3 +35,4 @@ lambda-code/target
 scripts/nohup.out
 
 **/node_modules
+**/secret.js

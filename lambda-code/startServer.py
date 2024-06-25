@@ -41,48 +41,6 @@ def getServerStatus(ec2, instance_id):
 
     return [isOff,ec2Response]
 
-def postRoute(event, ec2):
-    incoming_api_key = json.loads(event["body"]).get("api-key")
-    valid_api_key = os.environ["api_key"]
-    instance_id = os.environ["instance_id"]
-
-    if (incoming_api_key != valid_api_key):
-        validation_error["body"] = json.dumps({"message": "Did not include the required API key"})
-        print(validation_error)
-        return validation_error
-
-    action = json.loads(event["body"])["action"].lower()
-
-    if (action == "start"):
-        print("Starting EC2 instance...")
-        try:
-            ec2.start_instances(InstanceIds=[instance_id])
-            success["body"] = json.dumps({"message":"The server was started successfully."})
-            print("Returning the following (s): ", success)
-            return success
-        except Exception as e:
-            print("There was an error when attempting to start the server: ", str(e))
-
-            error["body"] = json.dumps({"message":"The server failed to start. Please try again: " + str(e)})
-            print("Returning the following (e): ", error)
-            return error
-        print('Started EC2 instance: ' + instance_id)
-    elif (action == "stop"):
-        print("Stopping EC2 instance...")
-        try:
-            ec2.stop_instances(InstanceIds=[instance_id])
-            success["body"] = json.dumps({"message":"The server was stopped successfully."})
-            print("Returning the following (s): ", success)
-            return success
-        except Exception as e:
-            print("There was an error when attempting to stop the server: ", str(e))
-            print("Returning the following (e): ", success)
-            error["body"] = json.dumps({"message":"The server failed to stop. Please try again" + str(e)})
-            return error
-        print('Stopped EC2 instance: ' + instance_id)
-    else:
-        print("Action was not identified, please try again using the following formatting:\n{\"action\":\"start/stop\"}.")
-
 def getRoute(event, ec2):
     instance_id = os.environ["instance_id"]
     res = getServerStatus(ec2, instance_id)
@@ -103,6 +61,50 @@ def getRoute(event, ec2):
         print("There was an error when attempting to get the public ipv4 information")
         error["body"] = json.dumps({"message":"There was an error when retrieving the server address. Please try again" + str(e)})
         return error
+
+
+def postRoute(event, ec2):
+    incoming_api_key = json.loads(event["body"]).get("api-key")
+    valid_api_key = os.environ["api_key"]
+    instance_id = os.environ["instance_id"]
+
+    if (incoming_api_key != valid_api_key):
+        validation_error["body"] = json.dumps({"message": "Did not include the required API key"})
+        print(validation_error)
+        return validation_error
+
+    action = json.loads(event["body"])["action"].lower()
+
+    if (action == "start"):
+        print("Starting EC2 instance...")
+        try:
+            ec2.start_instances(InstanceIds=[instance_id])
+            success["body"] = json.dumps({"message":"The server was started successfully."})
+            print("Returning the following: ", success)
+            return success
+        except Exception as e:
+            print("There was an error when attempting to start the server: ", str(e))
+
+            error["body"] = json.dumps({"message":"The server failed to start. Please try again: " + str(e)})
+            print("Returning the following: ", error)
+            return error
+        print('Started EC2 instance: ' + instance_id)
+    elif (action == "stop"):
+        print("Stopping EC2 instance...")
+        try:
+            ec2.stop_instances(InstanceIds=[instance_id])
+            success["body"] = json.dumps({"message":"The server was stopped successfully."})
+            print("Returning the following: ", success)
+            return success
+        except Exception as e:
+            print("There was an error when attempting to stop the server: ", str(e))
+            print("Returning the following: ", success)
+            error["body"] = json.dumps({"message":"The server failed to stop. Please try again" + str(e)})
+            return error
+        print('Stopped EC2 instance: ' + instance_id)
+    else:
+        print("Action was not identified, please try again using the following formatting:\n{\"action\":\"start/stop\"}.")
+
 
 
 def lambda_handler(event, context):
