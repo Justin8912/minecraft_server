@@ -78,3 +78,86 @@ How to run
 6. When prompted, either start or stop the server
 7. When starting the server, the server will give you an IP address, you must use this to connect to the server.
    - I could have had the same IP address persist, but did not want to pay for an elastic IP Address since it charges based on time that the server is turned off (which I expect will be a majority of the month).
+
+
+Setup in the EC2 instance
+==
+### Getting the server to run on start
+1. Go to the `etc/init.d` directory and add your bash script 
+2. Modify the permissions on the file to make it executable 
+
+`sudo chmod -x [filename]`
+
+3. Create a symbolic link to the `etc/rc.d` directory with the following command 
+
+`sudo ln -s [filename] etc/rc.d`
+
+4. To chech to make sure the link was made correctly, run the following command:
+
+`sudo ls -l etc/rc.d/[filename]`
+
+5. You should see a symbolic link that was created.
+
+What this is doing is linking up the executable file that was defined to the startup process of the linux server.
+
+I ended up pasting this in the "user data" section of the EC2 instance. I am convinced that the above steps are not needed, but need to verify.
+```
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+cloud_final_modules:
+- [scripts-user, always]
+
+--//
+Content-Type: text/x-shellscript; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="userdata.txt"
+
+#!/bin/bash
+/bin/echo "Hello World" >> /tmp/testfile.txt
+echo "Running the user data script"
+echo "$PWD"
+cd /home/ec2-user/minecraft_server/app
+echo "Changing directories"
+echo "$PWD"
+echo "Starting server"
+sudo java -Xmx4G -Xms4G -jar server.jar nogui &
+echo "Server started"
+--//--
+```
+
+It's my assumption that this is somehow setting cloud-init to run correctly on the EC2 instance but I really dont understand why this works.
+
+
+### Setting a password to use EC2 Serial console
+[Look here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#set-user-password) for more context
+
+1. Run the following command to set the password:
+
+`sudo passwd root`
+
+### Setting up the environment
+1. Install java 
+
+`sudo yum install java`
+
+2. Install git
+
+`sudo yum install git`
+
+3. Clone this git repo 
+
+`sudo git clone `
+
+### Using Spigot
+Apparently Spigot is a better minecrafter server version and they maintain a lot of software that makes using plugins for mc servers. 
+
+[Here](https://danieldusek.com/create-an-interactive-map-of-your-minecraft-world.html) is the link I was following to figure out how to generate a map of the server.

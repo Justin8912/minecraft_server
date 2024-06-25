@@ -11,9 +11,18 @@ module "IAM" {
   source = "../../modules/IAM"
 
   app-name = local.app_name
+  ec2_instance = module.minecraft-server.instance
 }
 
-#module "application-lambda" {
-#  source = "../../modules/lambda"
-#  minecraft-server-iam-role-arn = module.IAM.minecraft-iam-role-arn
-#}
+module "application-lambda" {
+  source = "../../modules/lambda"
+
+  minecraft-server-iam-role-arn = module.IAM.minecraft-iam-role-arn
+  instance = module.minecraft-server.instance
+}
+
+module "api-gateway" {
+  source = "../../modules/api-gateway"
+
+  server_starter_lambda = module.application-lambda.lambda
+}
