@@ -9,7 +9,7 @@ Goals
 
 Stretch Goals
 ==
-1. I will add a way for Robin to be able to turn it on using IAM permissions. [DONE]
+1. I will add a way for Robin to be able to turn it on using IAM permissions. 
 2. I will periodically back up the save files of the game so saves can be reverted
 3. I will add a monitoring tool that will shut off the server if there has been no activity for a certain amount of time
 
@@ -32,26 +32,39 @@ bash minecraft_server/scripts/kill_server.sh
 
 Here I will outline the steps for starting / stopping the server on the command line
 --
+**This is no longer necessary if you plan on using the script that can be found [here](./scripts/runServer.js)**
+<details>
+<summary>Controller the server with aws CLI</summary>
+
 1. Set the following variables depending on your IAM user
+
 ```
 export AWS_ACCESS_KEY        = <>
 export AWS_SECRET_ACCESS_KEY = <>
 ```
-1. Run this command in order to get a session started
+
+2. Run this command in order to get a session started
+
 ```
 aws sts get-session-token --duration-seconds <desired-time>
 ```
-2. Copy and paste the credentials given
+
+3. Copy and paste the credentials given
+
 ```
 export AWS_ACCESS_KEY_ID     = <>
 export AWS_SECRET_ACCESS_KEY = <>
 export AWS_SESSION_TOKEN     = <>
 ```
-3. Run the following command depending on whether you want to start or stop the server
+
+4. Run the following command depending on whether you want to start or stop the server
+
 ```
 aws ec2 [start/stop]-instances --instance-ids <instance_id>
 ```
-4. Run the following command to start the server:
+
+5. Run the following command to start the server
+
 ```
 aws ssm send-command --instance-ids "<instance_id>" --document-name "AWS-RunShellScript" --parameters '{"commands":[".minecraft_server/scripts/start_server.sh"]}'
 ```
@@ -59,10 +72,15 @@ aws ssm send-command --instance-ids "<instance_id>" --document-name "AWS-RunShel
 I have created an IAM user as a part of the terraform that is being used here. You will need to get the IAM user access code and secret access key ID.
 
 This can be done in two ways:
+
 1. Create the credentials in the aws console, or
 2. Look through the `terraform.tfstate` file that is created after running terraform. The access key id and secret access key will be available here.
+</details>
 
-### Note that all of this done above is now done in the script called `startup_creds.sh` 
+
+<details>
+<summary>Using `startup_creds.sh`</summary> 
+
 How to run
 --
 1. Create a file called `secrets` in the root directory of this project
@@ -78,7 +96,7 @@ How to run
 6. When prompted, either start or stop the server
 7. When starting the server, the server will give you an IP address, you must use this to connect to the server.
    - I could have had the same IP address persist, but did not want to pay for an elastic IP Address since it charges based on time that the server is turned off (which I expect will be a majority of the month).
-
+</details>
 
 Setup in the EC2 instance
 ==
