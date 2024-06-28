@@ -26,3 +26,9 @@ module "api-gateway" {
 
   server_starter_lambda = module.application-lambda.lambda
 }
+
+#module "s3" {
+#  source = "../../modules/s3"
+#
+#  ec2_instance = module.minecraft-server.instance
+#}
